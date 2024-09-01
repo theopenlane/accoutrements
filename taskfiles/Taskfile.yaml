@@ -1,0 +1,163 @@
+version: "3"
+
+env:
+  OPENLANECLOUD_HOST: http://localhost:17608
+
+includes:
+  cli:
+    taskfile: ./cmd/cli/Taskfile.yaml
+  config:
+    taskfile: ./jsonschema/Taskfile.yaml
+  docker:
+    taskfile: ./docker/Taskfile.yaml
+    dir: ./docker
+
+tasks:
+  default:
+    silent: true
+    cmds:
+      - task --list
+
+  install:all:
+    desc: installs all dependencies for the project
+    aliases: [install]
+    cmds:
+      - task: go:dist
+      - task: brew-install
+      - task: local-setup
+
+  local-setup:
+    desc: Setup the project dependencies
+    cmds:
+      - npm install jsonschema2mk --global
+      - go mod download
+      - pre-commit install && pre-commit install-hooks
+      - pre-commit autoupdate
+      - go mod tidy && go get -u ./... &> /dev/null
+      - pre-commit run --show-diff-on-failure --color=always --all-files
+
+  go:dist:
+    desc: Downloads a Golang distribution
+    silent: true
+    vars:
+      GO_VERSION:
+        sh: curl -sk "https://go.dev/VERSION?m=text" | head -n 1 |  sed 's/go//g'
+      GO_URL: https://go.dev/dl/go{{.GO_VERSION}}.darwin-arm64.tar.gz
+    cmds:
+      - test -d /usr/local/go-{{.GO_VERSION}} || curl -L -o go{{.GO_VERSION}}.darwin-arm64.tar.gz {{.GO_URL}} && sudo tar -C /usr/local -xzf go{{.GO_VERSION}}.darwin-arm64.tar.gz
+    status:
+      - test -d /usr/local/go-{{.GO_VERSION}}
+
+  update-brew:
+    desc: Update Homebrew and upgrade all packages
+    cmds:
+      - brew update && brew upgrade && brew cleanup || true
+
+  brew-installed:
+    silent: true
+    desc: check if Homebrew is installed
+    cmds:
+      - '[ -x "$(command -v brew)" ] || (echo "Homebrew is not installed, please install it from https://brew.sh" && exit 1)'
+
+  brew-install:
+    desc: Install workstation dependencies with Brew
+    cmds:
+      - task: update-brew
+      - echo "Installing {{.DEPS}} via homebrew..."
+      - brew install {{.DEPS}} {{.CLI_ARGS}}
+      - echo "Installed {{.DEPS}} via homebrew!"
+    deps:
+      - task: brew-installed
+    status:
+      - '[ -f $(brew --prefix)/bin/{{.DEPS}} ]'
+    vars:
+      DEPS: >-
+        yq jq theopenlane/tap/openlane #magic___^_^___line #magic___^_^___line
+  ## Go tasks
+  go:lint:
+    desc: runs golangci-lint, the most annoying opinionated linter ever
+    cmds:
+      - golangci-lint run --config=.golangci.yaml --verbose --fast
+
+  go:test:
+    desc: runs and outputs results of created go tests
+    cmds:
+      - go test -v ./...
+
+  go:test:cover:
+    desc: runs and outputs results of created go tests with coverage
+    aliases: [cover]
+    cmds:
+      - go test -v ./... -coverprofile=coverage.out
+      - go tool cover -html=coverage.out
+
+  go:fmt:
+    desc: format all go code
+    cmds:
+      - go fmt ./...
+
+  go:tidy:
+    desc: Runs go mod tidy on the backend
+    aliases: [tidy]
+    cmds:
+      - go mod tidy
+
+  go:build-cli:
+    desc: Runs go build for the openlane-cloud cli
+    cmds:
+      - go build -mod=mod -o openlane-cloud-cli ./cmd/cli
+
+  go:all:
+    aliases: [go]
+    desc: Runs all go test and lint related tasks
+    cmds:
+      - task: go:tidy
+      - task: go:fmt
+      - task: go:lint
+      - task: go:test
+
+  ## Usage setup tasks
+  register:
+    desc: a task to register a user, parse out the token response, and submit it to the verify endpoint
+    cmds:
+      - curl {{.OPENLANE_HOST}}/v1/verify?token={{.VERIFY_TOKEN}}
+    vars:
+      OPENLANE_HOST: $OPENLANECLOUD_HOST
+      VERIFY_TOKEN:
+        sh: openlane register --email="openlane-cloud@theopenlane.io" --first-name="openlane" --last-name="cloud" --password="mitbcloud1234" | jq -r .token
+
+  login:
+    desc: a task to login the verified user
+    env:
+      OPENLANE_PASSWORD: mitbcloud1234
+    cmds:
+      - openlane login -u openlane-cloud@theopenlane.io
+
+  pat:create:
+    desc: a task to create a personal access token and export it to the environment
+    vars:
+      PERSONAL_ORG:
+        sh: openlane user get -z json | jq -r '.users.edges.[0].node.setting.defaultOrg.id'
+    cmds:
+      - touch {{.PAT_FILE}}
+      - openlane pat create --name="openlane-cloud-demo-env" --description="openlane-cloud" -o {{.PERSONAL_ORG}}  -z json | jq -r '"OPENLANECLOUD_PATID=\(.createPersonalAccessToken.personalAccessToken.id)\nOPENLANECLOUD_SERVER_OPENLANE_TOKEN=\(.createPersonalAccessToken.personalAccessToken.token)\nOPENLANECLOUD_TOKEN=\(.createPersonalAccessToken.personalAccessToken.token)"' > {{.PAT_FILE}}
+      - export $(awk -F= '{output=output" "$1"="$2} END {print output}' {{.PAT_FILE}})
+
+  ## Server tasks
+  setup-dev:
+    desc: login and create a OPENLANE pat for the dev environment
+    cmds:
+      - task: login
+      - task: pat:create
+
+  run:
+    dotenv: ['{{.PAT_FILE}}']
+    desc: runs the openlane-cloud server in dev mode
+    cmds:
+      - go run main.go serve --debug --pretty
+
+  run-dev:
+    desc: runs the openlane-cloud server in dev mode
+    cmds:
+      - task: setup-dev
+      - task: run

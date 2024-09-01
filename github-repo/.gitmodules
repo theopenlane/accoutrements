@@ -1,0 +1,3 @@
+[submodule "path/in/this/repo"]
+	path = path/in/this/repo
+	url = https://github.com/theopenlane/repothispathpointsto.git

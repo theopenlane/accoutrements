@@ -1,0 +1,72 @@
+version: "3"
+
+tasks:
+  default:
+    silent: true
+    cmds:
+      - task --list
+
+  generate:
+    desc: a combination of the ent, graph, and gqlgen tasks which are required to fully generate the necessary graph, server, resolvers, client, etc.
+    cmds:
+      - go generate ./...
+
+  ## Go tasks
+  go:lint:
+    desc: runs golangci-lint, the most annoying opinionated linter ever
+    cmds:
+      - golangci-lint run --config=.golangci.yaml --verbose --fast --fix
+
+  go:test:
+    desc: runs and outputs results of created go tests
+    aliases: ['go:test:psql', 'test:psql']
+    env:
+      TEST_DB_URL: "docker://postgres:16-alpine"
+    cmds:
+      - go test -v ./...
+
+  go:test:libsql:
+    desc: runs and outputs results of created go tests
+    aliases: ['test:libsql']
+    env:
+      TEST_DB_URL: "libsql://file::memory:?cache=shared"
+    cmds:
+      - go test -v ./...
+
+  go:test:cover:
+    desc: runs and outputs results of created go tests with coverage
+    aliases: [cover]
+    cmds:
+      - go test -v ./... -coverprofile=coverage.out
+      - go tool cover -html=coverage.out
+
+  go:fmt:
+    desc: format all go code
+    cmds:
+      - go fmt ./...
+
+  go:tidy:
+    desc: Runs go mod tidy on the backend
+    aliases: [tidy]
+    cmds:
+      - go mod tidy
+
+  go:build:
+    desc: Runs go build for the openlane server
+    cmds:
+      - go build -mod=mod -o openlane
+
+  go:build-cli:
+    aliases: [buildcli]
+    desc: Runs go build for the openlane cli
+    cmds:
+      - go build -mod=mod -o openlane-cli ./cmd/cli
+
+  go:all:
+    aliases: [go]
+    desc: Runs all go test and lint related tasks
+    cmds:
+      - task: go:tidy
+      - task: go:fmt
+      - task: go:lint
+      - task: go:test

@@ -1,0 +1,27 @@
+version: "3"
+
+tasks:
+  default:
+    silent: true
+    cmds:
+      - task --list
+  
+  rover:
+    aliases:
+      - docker:rover # adding for backwards compatibility
+    desc: launches an interactive browser to navigate the configured graph schema
+    cmds:
+      - 'open "http://localhost:4000"'
+      - rover dev --skip-update-check --skip-update -u http://localhost:17608/query -s schema.graphql -n openlane --elv2-license=accept
+
+  rover:update:
+    desc: updates rover, if updates are available, and launches an interactive browser to navigate the configured graph schema
+    cmds:
+      - 'open "http://localhost:4000"'
+      - rover dev -u http://localhost:17608/query -s schema.graphql -n openlane --elv2-license=accept
+
+  rover:install:
+    desc: installs the rover plugins for supergraph and router
+    cmds:
+      - rover install --plugin supergraph@v2.8.2
+      - rover install --plugin router@v1.50.0

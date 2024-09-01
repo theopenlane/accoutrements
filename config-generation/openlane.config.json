@@ -1,0 +1,211 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/theopenlane/accoutrements/config/config.-config",
+  "$defs": {
+    "[]string": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "config.CORS": {
+      "properties": {
+        "allow_origins": {
+          "$ref": "#/$defs/[]string",
+          "description": "AllowOrigins is a list of allowed origin to indicate whether the response can be shared with\nrequesting code from the given origin"
+        },
+        "cookie_insecure": {
+          "type": "boolean",
+          "description": "CookieInsecure allows CSRF cookie to be sent to servers that the browser considers\nunsecured. Useful for cases where the connection is secured via VPN rather than\nHTTPS directly."
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "description": "CORS settings for the server to allow cross origin requests"
+    },
+    "config.OpenLane": {
+      "properties": {
+        "token": {
+          "type": "string",
+          "description": "Token is the token used to authenticate with the openlane server"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "description": "OpenLane settings for the server to authenticate with the openlane server"
+    },
+    "config.Server": {
+      "properties": {
+        "debug": {
+          "type": "boolean",
+          "description": "Debug enables debug mode for the server"
+        },
+        "dev": {
+          "type": "boolean",
+          "description": "Dev enables echo's dev mode options"
+        },
+        "listen": {
+          "type": "string",
+          "description": "Listen sets the listen address to serve the echo server on"
+        },
+        "shutdown_grace_period": {
+          "type": "integer",
+          "description": "ShutdownGracePeriod sets the grace period for in flight requests before shutting down"
+        },
+        "read_timeout": {
+          "type": "integer",
+          "description": "ReadTimeout sets the maximum duration for reading the entire request including the body"
+        },
+        "write_timeout": {
+          "type": "integer",
+          "description": "WriteTimeout sets the maximum duration before timing out writes of the response"
+        },
+        "idle_timeout": {
+          "type": "integer",
+          "description": "IdleTimeout sets the maximum amount of time to wait for the next request when keep-alives are enabled"
+        },
+        "read_header_timeout": {
+          "type": "integer",
+          "description": "ReadHeaderTimeout sets the amount of time allowed to read request headers"
+        },
+        "tls": {
+          "$ref": "#/$defs/config.TLS",
+          "description": "TLS contains the tls configuration settings"
+        },
+        "cors": {
+          "$ref": "#/$defs/config.CORS",
+          "description": "CORS contains settings to allow cross origin settings and insecure cookies"
+        },
+        "openlane": {
+          "$ref": "#/$defs/config.OpenLane",
+          "description": "OpenLane contains the token for the openlane server"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "listen"
+      ],
+      "description": "Server settings for the echo server"
+    },
+    "config.TLS": {
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enabled turns on TLS settings for the server"
+        },
+        "cert_file": {
+          "type": "string",
+          "description": "CertFile location for the TLS server"
+        },
+        "cert_key": {
+          "type": "string",
+          "description": "CertKey file location for the TLS server"
+        },
+        "auto_cert": {
+          "type": "boolean",
+          "description": "AutoCert generates the cert with letsencrypt, this does not work on localhost"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "description": "TLS settings for the server for secure connections"
+    },
+    "otelx.Config": {
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "provider": {
+          "type": "string"
+        },
+        "environment": {
+          "type": "string"
+        },
+        "stdout": {
+          "$ref": "#/$defs/otelx.StdOut"
+        },
+        "otlp": {
+          "$ref": "#/$defs/otelx.OTLP"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "otelx.OTLP": {
+      "properties": {
+        "endpoint": {
+          "type": "string"
+        },
+        "insecure": {
+          "type": "boolean"
+        },
+        "certificate": {
+          "type": "string"
+        },
+        "headers": {
+          "$ref": "#/$defs/[]string"
+        },
+        "compression": {
+          "type": "string"
+        },
+        "timeout": {
+          "type": "integer"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "otelx.StdOut": {
+      "properties": {
+        "pretty": {
+          "type": "boolean"
+        },
+        "disableTimestamp": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "ratelimit.Config": {
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "limit": {
+          "type": "number"
+        },
+        "burst": {
+          "type": "integer"
+        },
+        "expires": {
+          "type": "integer"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    }
+  },
+  "properties": {
+    "refresh_interval": {
+      "type": "integer",
+      "description": "RefreshInterval determines how often to reload the config"
+    },
+    "server": {
+      "$ref": "#/$defs/config.Server",
+      "description": "Server contains the echo server settings"
+    },
+    "tracer": {
+      "$ref": "#/$defs/otelx.Config",
+      "description": "Tracer contains the tracing config for opentelemetry"
+    },
+    "ratelimit": {
+      "$ref": "#/$defs/ratelimit.Config",
+      "description": "Ratelimit contains the configuration for the rate limiter"
+    }
+  },
+  "additionalProperties": false,
+  "type": "object",
+  "description": "Config contains the configuration for the openlane server"
+}

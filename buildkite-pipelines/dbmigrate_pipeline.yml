@@ -1,0 +1,21 @@
+steps:
+  - group: ":database: atlas migrate"
+    key: "database"
+    steps:
+      - label: ":postgres: atlas lint"
+        key: "atlas_lint"
+        plugins:
+          - theopenlane/atlas#v0.0.3:
+              project: openlane
+              dev-url: "docker://postgres/16/dev?search_path=public"
+              dir: "file://db/migrations"
+              step: lint
+      - label: ":rocket: atlas push"
+        if: build.branch == "main"
+        key: "atlas_migrate"
+        plugins:
+          - theopenlane/atlas#v0.0.3:
+              project: openlane
+              dev-url: "docker://postgres/16/dev?search_path=public"
+              dir: "file://db/migrations"
+              step: migrate
