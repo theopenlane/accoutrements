@@ -1,0 +1,13 @@
+steps:
+  - group: ":knife: Pre-check"
+    key: "precheck"
+    steps:
+      - label: ":yaml: generate config"
+        key: "generate_config"
+        cancel_on_build_failing: true
+        plugins:
+          - docker#v5.11.0:
+              image: "ghcr.io/theopenlane/build-image:v0.1.2"
+              command: ["task", "config:ci"]
+              environment:
+                - "GOTOOLCHAIN=auto"

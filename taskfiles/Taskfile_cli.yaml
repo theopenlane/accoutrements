@@ -1,0 +1,52 @@
+version: "3"
+
+tasks:
+  default:
+    silent: true
+    cmds:
+      - task --list
+  
+  register:
+    desc: a task to register a user, parse out the token response, and submit it to the verify endpoint
+    cmds:
+      - curl {{.OPENLANE_HOST}}/v1/verify?token={{.VERIFY_TOKEN}}
+    vars:
+      OPENLANE_HOST: $OPENLANECLOUD_HOST
+      VERIFY_TOKEN:
+        sh: openlane register --email="openlane-cloud@openlane.net" --first-name="openlane" --last-name="cloud" --password="mitbcloud1234" | jq -r .token
+
+  login:
+    desc: a task to login the verified user
+    env:
+      OPENLANE_PASSWORD: mitbcloud1234
+    cmds:
+      - openlane login -u openlane-cloud@openlane.net
+
+  pat:create:
+    desc: a task to create a personal access token and export it to the environment
+    vars:
+      PERSONAL_ORG:
+        sh: openlane user get -z json | jq -r '.users.edges.[0].node.setting.defaultOrg.id'
+    cmds:
+      - touch {{.PAT_FILE}}
+      - openlane pat create --name="openlane-cloud-demo-env" --description="openlane-cloud" -o {{.PERSONAL_ORG}}  -z json | jq -r '"OPENLANECLOUD_PATID=\(.createPersonalAccessToken.personalAccessToken.id)\nOPENLANECLOUD_SERVER_OPENLANE_TOKEN=\(.createPersonalAccessToken.personalAccessToken.token)\nOPENLANECLOUD_TOKEN=\(.createPersonalAccessToken.personalAccessToken.token)"' > {{.PAT_FILE}}
+      - export $(awk -F= '{output=output" "$1"="$2} END {print output}' {{.PAT_FILE}})
+
+  ## Server tasks
+  setup-dev:
+    desc: login and create a OPENLANE pat for the dev environment
+    cmds:
+      - task: login
+      - task: pat:create
+
+  run:
+    dotenv: ['{{.PAT_FILE}}']
+    desc: runs the openlane-cloud server in dev mode
+    cmds:
+      - go run main.go serve --debug --pretty
+
+  run-dev:
+    desc: runs the openlane-cloud server in dev mode
+    cmds:
+      - task: setup-dev
+      - task: run

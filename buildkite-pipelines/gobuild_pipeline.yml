@@ -1,0 +1,24 @@
+steps:
+  - group: ":golang: Builds"
+    key: "go-builds"
+    steps:
+      - label: ":golang: build"
+        key: "gobuild-server"
+        artifact_paths: "bin/${APP_NAME}"
+        plugins:
+          - docker#v5.11.0:
+              image: "golang:1.23.0"
+              environment:
+                - CGO_ENABLED=0
+                - GOOS=linux
+              command: ["go", "build", "-buildvcs=false", "-mod=mod", "-a", "-o", "bin/$APP_NAME"]
+      - label: ":terminal: build cli"
+        key: "gobuild-cli"
+        artifact_paths: "bin/${APP_NAME}"
+        plugins:
+          - docker#v5.11.0:
+              image: "golang:1.23.0"
+              environment:
+                - GOOS=darwin
+                - GOARCH=arm64
+              command: ["go", "build", "-buildvcs=false", "-mod=mod", "-a", "-o", "bin/${APP_NAME}", "."]

@@ -1,0 +1,21 @@
+steps:
+  - group: ":test_tube: Tests"
+    key: "tests"
+    steps:
+      - label: ":golangci-lint: lint :lint-roller:"
+        key: "lint"
+        cancel_on_build_failing: true
+        plugins:
+          - docker#v5.11.0:
+              image: "registry.hub.docker.com/golangci/golangci-lint:latest-alpine"
+              command: ["golangci-lint", "run", "-v"]
+              always-pull: true
+              environment:
+                - "GOTOOLCHAIN=auto"
+      - label: ":golang: go test"
+        key: "go_test"
+        plugins:
+          - docker#v5.11.0:
+              image: golang:1.23.0
+              command: ["go", "test", "-coverprofile=coverage.out", "./..."]
+        artifact_paths: ["coverage.out"]
