@@ -11,8 +11,8 @@ import (
 	"github.com/knadh/koanf/providers/file"
 	"github.com/knadh/koanf/v2"
 	"github.com/mcuadros/go-defaults"
+	"github.com/theopenlane/beacon/otelx"
 	"github.com/theopenlane/core/pkg/middleware/ratelimit"
-	"github.com/theopenlane/core/pkg/otelx"
 )
 
 var (
