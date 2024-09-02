@@ -23,7 +23,7 @@
       "type": "object",
       "description": "CORS settings for the server to allow cross origin requests"
     },
-    "config.OpenLane": {
+    "config.Openlane": {
       "properties": {
         "token": {
           "type": "string",
@@ -32,7 +32,7 @@
       },
       "additionalProperties": false,
       "type": "object",
-      "description": "OpenLane settings for the server to authenticate with the openlane server"
+      "description": "Openlane settings for the server to authenticate with the openlane server"
     },
     "config.Server": {
       "properties": {

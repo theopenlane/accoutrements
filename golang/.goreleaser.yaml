@@ -28,11 +28,11 @@ archives:
         format: zip
 brews:
   - homepage: 'https://github.com/theopenlane/accoutrements'
-    description: 'openlane-cloud is the client CLI for interacting with OpenLane Cloud services'
+    description: 'openlane-cloud is the client CLI for interacting with Openlane Cloud services'
     directory: Formula
     license: 'Apache-2.0'
     commit_author:
-      name: theopenlane-bender
+      name: openlane-bender
       email: bender@theopenlane.io
     repository:
       owner: theopenlane
