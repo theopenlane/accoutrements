@@ -33,7 +33,7 @@ require (
 	github.com/knadh/koanf/v2 v2.1.1
 	github.com/mcuadros/go-defaults v1.2.0
 	github.com/stoewer/go-strcase v1.3.0
-	github.com/theopenlane/core v0.1.2
+	github.com/theopenlane/core v0.1.6
 	go.opentelemetry.io/otel v1.29.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.29.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc v1.29.0 // indirect
