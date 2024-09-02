@@ -5,10 +5,9 @@ repos:
     rev: v4.6.0
     hooks:
       - id: trailing-whitespace
-        exclude: jsonschema/api-docs.md
       - id: detect-private-key
   - repo: https://github.com/google/yamlfmt
-    rev: v0.12.1
+    rev: v0.13.0
     hooks:
       - id: yamlfmt
   - repo: https://github.com/crate-ci/typos
