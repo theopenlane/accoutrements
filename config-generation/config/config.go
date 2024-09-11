@@ -11,8 +11,8 @@ import (
 	"github.com/knadh/koanf/providers/file"
 	"github.com/knadh/koanf/v2"
 	"github.com/mcuadros/go-defaults"
+	"github.com/theopenlane/beacon/otelx"
 	"github.com/theopenlane/core/pkg/middleware/ratelimit"
-	"github.com/theopenlane/core/pkg/otelx"
 )
 
 var (
@@ -53,8 +53,8 @@ type Server struct {
 	TLS TLS `json:"tls" koanf:"tls"`
 	// CORS contains settings to allow cross origin settings and insecure cookies
 	CORS CORS `json:"cors" koanf:"cors"`
-	// OpenLane contains the token for the openlane server
-	OpenLane OpenLane `json:"openlane" koanf:"openlane"`
+	// Openlane contains the token for the openlane server
+	Openlane Openlane `json:"openlane" koanf:"openlane"`
 }
 
 // CORS settings for the server to allow cross origin requests
@@ -68,8 +68,8 @@ type CORS struct {
 	CookieInsecure bool `json:"cookie_insecure" koanf:"cookie_insecure"`
 }
 
-// OpenLane settings for the server to authenticate with the openlane server
-type OpenLane struct {
+// Openlane settings for the server to authenticate with the openlane server
+type Openlane struct {
 	// Token is the token used to authenticate with the openlane server
 	Token string `json:"token" koanf:"token"`
 }
