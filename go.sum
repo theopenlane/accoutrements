@@ -17,6 +17,8 @@ github.com/go-logr/stdr v1.2.2 h1:hSWxHoqTgW2S2qGc0LTAI563KZ5YKYRhT3MFKZMbjag=
 github.com/go-logr/stdr v1.2.2/go.mod h1:mMo/vtBO5dYbehREoey6XUKy/eSumjCCveDpRre4VKE=
 github.com/go-viper/mapstructure/v2 v2.1.0 h1:gHnMa2Y/pIxElCH2GlZZ1lZSsn6XMtufpGyP1XxdC/w=
 github.com/go-viper/mapstructure/v2 v2.1.0/go.mod h1:oJDH3BJKyqBA2TXFhDsKDGDTlndYOZ6rGS0BRZIxGhM=
+github.com/go-viper/mapstructure/v2 v2.2.1 h1:ZAaOCxANMuZx5RCeg0mBdEZk7DZasvvZIxtHqx8aGss=
+github.com/go-viper/mapstructure/v2 v2.2.1/go.mod h1:oJDH3BJKyqBA2TXFhDsKDGDTlndYOZ6rGS0BRZIxGhM=
 github.com/google/go-cmp v0.6.0 h1:ofyhxvXcZhMsU5ulbFiLKl/XBFqE1GSq7atu8tAmTRI=
 github.com/google/go-cmp v0.6.0/go.mod h1:17dUlkBOakJ0+DkrSSNjCkIjxS6bF9zb3elmeNGIjoY=
 github.com/google/uuid v1.6.0 h1:NIvaJDMOsjHA8n1jAhLSgzrAzy1Hgr+hNrb57e+94F0=
@@ -78,6 +80,8 @@ github.com/theopenlane/core v0.1.9 h1:1D34xKoqKMqrRoiPjNru/CHpsOvKB9fiLLJFfpmOVo
 github.com/theopenlane/core v0.1.9/go.mod h1:z5sNm0rEmP3dASfbLxFnEZWviur0vdtVLqs1TNSK+bs=
 github.com/theopenlane/core v0.1.10 h1:Y/Bd27g0C3OFt/sB8Wxucq1AGr9W6JPWR5+zmFDnS/I=
 github.com/theopenlane/core v0.1.10/go.mod h1:pFQbbCPMgnLoNrOu8ab/nENSBqppb2qMFf9wnQHbGDU=
+github.com/theopenlane/core v0.1.11 h1:TCsmkItkhjWbwjuQwRG5z/4vC/m1c5IZkfyEukLPXcA=
+github.com/theopenlane/core v0.1.11/go.mod h1:5mHRR7Pkxo3m03wlXPEKRHeIepEiDFOVVtKb2ZAxEpA=
 github.com/theopenlane/echox v0.1.0 h1:y4Z2shaODCLwXHsHBrY/EkH/2sIuo49xdIfxx7h+Zvg=
 github.com/theopenlane/echox v0.1.0/go.mod h1:RaynhPvY9qbLOVlcO7Js1NqZ66+CP9hVBa0c7ehNYA4=
 github.com/theopenlane/echox v0.2.0 h1:s9DJJrsLOSPsXVfgmQxgXmSVtxzztBnSmcVX4ax7tIM=
@@ -106,6 +110,8 @@ go.opentelemetry.io/otel/metric v1.30.0 h1:4xNulvn9gjzo4hjg+wzIKG7iNFEaBMX00Qd4Q
 go.opentelemetry.io/otel/metric v1.30.0/go.mod h1:aXTfST94tswhWEb+5QjlSqG+cZlmyXy/u8jFpor3WqQ=
 go.opentelemetry.io/otel/sdk v1.29.0 h1:vkqKjk7gwhS8VaWb0POZKmIEDimRCMsopNYnriHyryo=
 go.opentelemetry.io/otel/sdk v1.29.0/go.mod h1:pM8Dx5WKnvxLCb+8lG1PRNIDxu9g9b9g59Qr7hfAAok=
+go.opentelemetry.io/otel/sdk v1.30.0 h1:cHdik6irO49R5IysVhdn8oaiR9m8XluDaJAs4DfOrYE=
+go.opentelemetry.io/otel/sdk v1.30.0/go.mod h1:p14X4Ok8S+sygzblytT1nqG98QG2KYKv++HE0LY/mhg=
 go.opentelemetry.io/otel/trace v1.29.0 h1:J/8ZNK4XgR7a21DZUAsbF8pZ5Jcw1VhACmnYt39JTi4=
 go.opentelemetry.io/otel/trace v1.29.0/go.mod h1:eHl3w0sp3paPkYstJOmAimxhiFXPg+MMTlEh3nsQgWQ=
 go.opentelemetry.io/otel/trace v1.30.0 h1:7UBkkYzeg3C7kQX8VAidWh2biiQbtAKjyIML8dQ9wmc=
