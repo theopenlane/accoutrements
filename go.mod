@@ -1,6 +1,6 @@
 module github.com/theopenlane/accoutrements
 
-go 1.23.2
+go 1.23.3
 
 require github.com/theopenlane/beacon v0.1.0
 
@@ -35,7 +35,7 @@ require (
 	github.com/knadh/koanf/v2 v2.1.2
 	github.com/mcuadros/go-defaults v1.2.0
 	github.com/stoewer/go-strcase v1.3.0
-	github.com/theopenlane/core v0.3.5
+	github.com/theopenlane/core v0.4.0
 	go.opentelemetry.io/otel v1.31.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.31.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc v1.31.0 // indirect
@@ -51,5 +51,5 @@ require (
 	google.golang.org/genproto/googleapis/api v0.0.0-20241021214115-324edc3d5d38 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20241021214115-324edc3d5d38 // indirect
 	google.golang.org/grpc v1.67.1 // indirect
-	google.golang.org/protobuf v1.35.1 // indirect
+	google.golang.org/protobuf v1.35.2 // indirect
 )
