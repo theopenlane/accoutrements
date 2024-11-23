@@ -15,6 +15,13 @@ steps:
           #!/bin/bash
           ls
         plugins:
+          - cluster-secrets#v1.0.0:
+              variables:
+                SECRET_GHCR_PUBLISH_TOKEN: SECRET_GHCR_PUBLISH_TOKEN
+          - docker-login#v3.0.0: # we need to login for the image to be accessible on the host
+              username: openlane-bender
+              password-env: SECRET_GHCR_PUBLISH_TOKEN
+              server: ghcr.io
           - theopenlane/docker-metadata#v1.0.0:
               images:
                 - "${IMAGE_REPO}"
@@ -25,11 +32,12 @@ steps:
               push: false
               build-args:
                 - NAME=${APP_NAME}
-          - equinixmetal-buildkite/trivy#v1.18.5:
+          - equinixmetal-buildkite/trivy#v1.19.0::
               severity: CRITICAL,HIGH
               ignore-unfixed: true
               security-checks: config,secret,vuln
               skip-files: "cosign.key,Dockerfile.dev"
+              trivy-version: "0.57.1"
       - label: ":docker: docker build and publish"
         key: "docker-build"
         cancel_on_build_failing: true
@@ -38,6 +46,9 @@ steps:
           #!/bin/bash
           ls
         plugins:
+          - cluster-secrets#v1.0.0:
+              variables:
+                SECRET_GHCR_PUBLISH_TOKEN: SECRET_GHCR_PUBLISH_TOKEN
           - docker-login#v3.0.0:
               username: theopenlane-bender
               password-env: SECRET_GHCR_PUBLISH_TOKEN
@@ -53,11 +64,12 @@ steps:
               push: true
               build-args:
                 - NAME=${APP_NAME}
-          - equinixmetal-buildkite/trivy#v1.18.5:
+          - equinixmetal-buildkite/trivy#v1.19.0::
               severity: CRITICAL,HIGH
               ignore-unfixed: true
               security-checks: config,secret,vuln
               skip-files: "cosign.key,Dockerfile.dev"
+              trivy-version: "0.57.1"
       - label: ":docker: docker build and publish"
         key: "docker-build-and-tag"
         if: build.tag != null
@@ -65,6 +77,9 @@ steps:
           #!/bin/bash
           ls
         plugins:
+          - cluster-secrets#v1.0.0:
+              variables:
+                SECRET_GHCR_PUBLISH_TOKEN: SECRET_GHCR_PUBLISH_TOKEN
           - docker-login#v3.0.0:
               username: theopenlane-bender
               password-env: SECRET_GHCR_PUBLISH_TOKEN
@@ -79,8 +94,3 @@ steps:
               push: true
               build-args:
                 - NAME=${APP_NAME}
-          - equinixmetal-buildkite/trivy#v1.18.5:
-              severity: CRITICAL,HIGH
-              ignore-unfixed: true
-              security-checks: config,secret,vuln
-              skip-files: "cosign.key,Dockerfile.dev"
