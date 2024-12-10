@@ -35,10 +35,8 @@ tasks:
       - sudo gpasswd -a buildkite-agent sudo
   install:ssh:
     aliases: [setupssh]
-    desc: adds public keys to .ssh/authorized_keys and sudoers
+    desc: adds sudoers
     cmds:
-      - echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICOW10FujEF972pEAWJ++qmY0JVBRgHs+KNThKhnbHjW" >> ~/.ssh/authorized_keys
-      - echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBZX0FGr6ML3tu3bkaSazZ7CppH5zD9jDcfa+Nt+ZuJX" >> ~/.ssh/authorized_keys
       - echo "buildkite-agent ALL=(ALL) NOPASSWD:/usr/bin/rm -rvf /var/lib/buildkite-agent/builds/*" | sudo tee /etc/sudoers.d/buildkite-agent
       - echo "buildkite-agent ALL=(ALL) NOPASSWD:/usr/bin/install *" | sudo tee -a /etc/sudoers.d/buildkite-agent
   install:buildkite:
