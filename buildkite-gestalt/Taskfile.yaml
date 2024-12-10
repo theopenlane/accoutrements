@@ -65,7 +65,8 @@ tasks:
       - cp environment /etc/buildkite-agent/hooks/
       - cp pre-checkout /etc/buildkite-agent/hooks/
       - sudo sed -i "s/xxx/{{.BUILDKITE_AGENT_TOKEN}}/g" /etc/buildkite-agent/buildkite-agent.cfg
-      - echo "spawn=3" | sudo tee -a /etc/buildkite-agent/buildkite-agent.cfg
+      - echo "spawn=2" | sudo tee -a /etc/buildkite-agent/buildkite-agent.cfg
+      - echo "queue=self-hosted-garage-vms" | sudo tee -a /etc/buildkite-agent/buildkite-agent.cfg
       - sudo systemctl start buildkite-agent
 
   fullinstall:
