@@ -30,7 +30,7 @@ tasks:
     aliases: [privs]
     desc: sets up the local docker group and adds the buildkite agent to it
     cmds:
-      - sudo newgrp docker
+      - sudo newgrp docker 
       - sudo gpasswd -a buildkite-agent docker
       - sudo gpasswd -a buildkite-agent sudo
   install:ssh:
@@ -58,7 +58,6 @@ tasks:
     aliases: [scriptperms]
     desc: installs buildkite environment and pre-checkout scripts
     cmds:
-      - chmod +x environment
       - chmod +x pre-checkout
       - cp environment /etc/buildkite-agent/hooks/
       - cp pre-checkout /etc/buildkite-agent/hooks/
@@ -74,6 +73,5 @@ tasks:
       - task: dockerinstall
       - task: privs
       - task: setupssh
-      - task: gcloud
       - task: bkinstall
       - task: scriptperms

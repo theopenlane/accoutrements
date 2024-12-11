@@ -15,14 +15,12 @@ tar -xvf gestalt.tar.gz --strip-components=1 -C accoutrements
 cd accoutrements/buildkite-gestalt
 age -d .env.age >> .env
 ```
+
 Then enter the passphrase. Once this is done, run:
 
-- task dockerinstall
-- task privs
-- task setupssh
-- task gcloud
-- task bkinstall
-- task scriptperms
+```
+task fullinstall
+```
 
 ## Secrets
 
