@@ -9,10 +9,10 @@ This repo is setup currently to support Ubuntu 22+ as the primary operating syst
 ```
 sudo apt install age
 sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b /usr/local/bin
-curl -LkSs https://api.github.com/repos/datumforge/gestalt/tarball -o gestalt.tar.gz
-sudo mkdir gestalt
-tar -xvf gestalt.tar.gz --strip-components=1 -C gestalt
-cd gestalt
+curl -LkSs https://api.github.com/repos/theopenlane/accoutrements/tarball -o accoutrements.tar.gz
+sudo mkdir accoutrements
+tar -xvf gestalt.tar.gz --strip-components=1 -C accoutrements
+cd accoutrements/buildkite-gestalt
 age -d .env.age >> .env
 ```
 Then enter the passphrase. Once this is done, run:
