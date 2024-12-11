@@ -1,0 +1,23 @@
+ #!/bin/bash
+set -eu -o pipefail
+
+remove_build_path() {
+  if ! [ -d "$BUILDKITE_BUILD_CHECKOUT_PATH" ]; then
+    echo "$BUILDKITE_BUILD_CHECKOUT_PATH doesn't exist, skipping"
+    exit 0
+  fi
+
+  if [ "${DEBUG_REMOVE_BUILDPATH_PLUGIN:-false}" != "true" ]; then
+    echo "Debug mode turned off, will suppress output"
+    sudo -n rm -rvf "$BUILDKITE_BUILD_CHECKOUT_PATH" &> /dev/null
+  else
+    sudo -n rm -rvf "$BUILDKITE_BUILD_CHECKOUT_PATH"
+  fi
+}
+
+main() {
+  remove_build_path
+}
+
+# Even when debug on, set max log ouput to 5MB to avoid hitting buildkite limits
+main | tail -c5000000
