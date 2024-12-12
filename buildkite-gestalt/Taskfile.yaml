@@ -1,0 +1,77 @@
+version: '3'
+
+dotenv: ['.env', '{{.ENV}}/.env']
+
+tasks:
+  install:age:
+    desc: install age, an encryption / decryption tool
+    cmds:
+      - apt install age
+  install:jq:
+    aliases: [jqinstall]
+    desc: install jq
+    cmds:
+      - sudo apt-get install jq
+  install:docker:
+    aliases: [dockerinstall]
+    desc: pulls down the docker installation script and runs it
+    cmds:
+      - curl -fsSL https://get.docker.com -o install-docker.sh
+      - sudo sh install-docker.sh
+      - systemctl enable docker
+  clean:docker:
+    aliases: [dockerclean]
+    desc: cleans any existing docker installation if it's there to ensure clean install
+    cmds:
+      - sudo apt-get purge docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-ce-rootless-extras
+      - sudo rm -rf /var/lib/docker
+      - sudo rm -rf /var/lib/containerd
+  install:dockerdeps:
+    aliases: [privs]
+    desc: sets up the local docker group and adds the buildkite agent to it
+    cmds:
+      - sudo newgrp docker 
+      - sudo gpasswd -a buildkite-agent docker
+      - sudo gpasswd -a buildkite-agent sudo
+  install:ssh:
+    aliases: [setupssh]
+    desc: adds sudoers
+    cmds:
+      - echo "buildkite-agent ALL=(ALL) NOPASSWD:/usr/bin/rm -rvf /var/lib/buildkite-agent/builds/*" | sudo tee /etc/sudoers.d/buildkite-agent
+      - echo "buildkite-agent ALL=(ALL) NOPASSWD:/usr/bin/install *" | sudo tee -a /etc/sudoers.d/buildkite-agent
+  install:buildkite:
+    aliases: [bkinstall]
+    desc: setup buildkites signed registry key
+    cmds:
+      - curl -fsSL https://keys.openpgp.org/vks/v1/by-fingerprint/32A37959C2FA5C3C99EFBC32A79206696452D198 | sudo gpg --dearmor -o /usr/share/keyrings/buildkite-agent-archive-keyring.gpg
+      - echo "deb [signed-by=/usr/share/keyrings/buildkite-agent-archive-keyring.gpg] https://apt.buildkite.com/buildkite-agent stable main" | sudo tee /etc/apt/sources.list.d/buildkite-agent.list
+      - sudo apt-get update && sudo apt-get install -y buildkite-agent
+      - sudo systemctl enable buildkite-agent
+  install:gcloudcli:
+    aliases: [gcloud]
+    desc: sets up the gcloud registry keys and CLI
+    cmds:
+      - curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg
+      - echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+      - sudo apt-get update && sudo apt-get install google-cloud-cli
+  install:buildkitescripts:
+    aliases: [scriptperms]
+    desc: installs buildkite environment and pre-checkout scripts
+    cmds:
+      - chmod +x pre-checkout
+      - cp environment /etc/buildkite-agent/hooks/
+      - cp pre-checkout /etc/buildkite-agent/hooks/
+      - sudo sed -i "s/xxx/{{.BUILDKITE_AGENT_TOKEN}}/g" /etc/buildkite-agent/buildkite-agent.cfg
+      - echo "spawn=2" | sudo tee -a /etc/buildkite-agent/buildkite-agent.cfg
+      - echo "queue=self-hosted-garage-vms" | sudo tee -a /etc/buildkite-agent/buildkite-agent.cfg
+      - sudo systemctl start buildkite-agent
+
+  fullinstall:
+    desc: runs through all of the respective installation tasks
+    cmds:
+      - task: jqinstall
+      - task: dockerinstall
+      - task: privs
+      - task: setupssh
+      - task: bkinstall
+      - task: scriptperms
