@@ -138,6 +138,8 @@ github.com/theopenlane/core v0.6.3 h1:mQjDEYPKkvdpKkniEuu+1pnXWB22Sk+Z97F2kZCyD6
 github.com/theopenlane/core v0.6.3/go.mod h1:IZDH6/8DLgq9ZkSrtCwiKZz5nvqSYCT994vcheqRvdw=
 github.com/theopenlane/core v0.6.4 h1:0qhG2TsTaXdFIWwaY1DRkhVla+4N7bwODE4Y1IWYDEc=
 github.com/theopenlane/core v0.6.4/go.mod h1:g6erEBIdmIErafsnepamC8PWt7Wjtzndlrx7buxqZxE=
+github.com/theopenlane/core v0.6.5 h1:f5sCP6fG3rgFY6HRezQV62zp+i60Ip3wnY8h54iyScQ=
+github.com/theopenlane/core v0.6.5/go.mod h1:eJwvX7zq9VCd6NSv8fCEQdG5kUWq2b48K/xnNvUz/Fk=
 github.com/theopenlane/echox v0.1.0 h1:y4Z2shaODCLwXHsHBrY/EkH/2sIuo49xdIfxx7h+Zvg=
 github.com/theopenlane/echox v0.1.0/go.mod h1:RaynhPvY9qbLOVlcO7Js1NqZ66+CP9hVBa0c7ehNYA4=
 github.com/theopenlane/echox v0.2.0 h1:s9DJJrsLOSPsXVfgmQxgXmSVtxzztBnSmcVX4ax7tIM=
@@ -246,6 +248,8 @@ golang.org/x/sys v0.27.0 h1:wBqf8DvsY9Y/2P8gAfPDEYNuS30J4lPHJxXSb/nJZ+s=
 golang.org/x/sys v0.27.0/go.mod h1:/VUhepiaJMQUp4+oa/7Zr1D23ma6VTLIYjOOTFZPUcA=
 golang.org/x/sys v0.28.0 h1:Fksou7UEQUWlKvIdsqzJmUmCX3cZuD2+P3XyyzwMhlA=
 golang.org/x/sys v0.28.0/go.mod h1:/VUhepiaJMQUp4+oa/7Zr1D23ma6VTLIYjOOTFZPUcA=
+golang.org/x/sys v0.29.0 h1:TPYlXGxvx1MGTn2GiZDhnjPA9wZzZeGKHHmKhHYvgaU=
+golang.org/x/sys v0.29.0/go.mod h1:/VUhepiaJMQUp4+oa/7Zr1D23ma6VTLIYjOOTFZPUcA=
 golang.org/x/text v0.17.0 h1:XtiM5bkSOt+ewxlOE/aE/AKEHibwj/6gvWMl9Rsh0Qc=
 golang.org/x/text v0.17.0/go.mod h1:BuEKDfySbSR4drPmRPG/7iBdf8hvFMuRexcpahXilzY=
 golang.org/x/text v0.18.0 h1:XvMDiNzPAl0jr17s6W9lcaIhGUfUORdGCNsuLmPG224=
