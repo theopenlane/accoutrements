@@ -7,7 +7,7 @@ steps:
         agents:
           queue: "hosted-small"
         plugins:
-          - theopenlane/atlas#v0.0.3:
+          - theopenlane/atlas#v1.1.0:
               project: openlane
               dev-url: "docker://postgres/16/dev?search_path=public"
               dir: "file://db/migrations"
@@ -18,7 +18,7 @@ steps:
         agents:
           queue: "hosted-small"
         plugins:
-          - theopenlane/atlas#v0.0.3:
+          - theopenlane/atlas#v1.1.0:
               project: openlane
               dev-url: "docker://postgres/16/dev?search_path=public"
               dir: "file://db/migrations"
