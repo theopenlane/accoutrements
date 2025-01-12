@@ -31,6 +31,6 @@ steps:
       - label: ":auth0: fga model test"
         key: "fga_test"
         plugins:
-          - docker#v5.11.0:
+          - docker#v5.12.0:
               image: openfga/cli
               command: ["model", "test", "--tests", "fga/tests/tests.yaml"]

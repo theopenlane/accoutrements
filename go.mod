@@ -1,6 +1,6 @@
 module github.com/theopenlane/accoutrements
 
-go 1.23.3
+go 1.23.4
 
 require github.com/theopenlane/beacon v0.1.1
 
