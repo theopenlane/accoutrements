@@ -84,6 +84,8 @@ github.com/theopenlane/core v0.6.15 h1:A96G3B5Mer/G7sk8C8zvOaPjRCTJvREkrXxGpBqAl
 github.com/theopenlane/core v0.6.15/go.mod h1:V+mjDRtjWi0ldfgEPBmvs0NJI3zumSiMJA2YcWCrC3Y=
 github.com/theopenlane/core v0.6.17 h1:rrTnWr4vH1yHe470Efac9jVSzGsR8KEUnGbF4RaFXws=
 github.com/theopenlane/core v0.6.17/go.mod h1:GbEm58QFojTRBNtpdpITxjvDk6Zy2DVJ3H0e+WyKoas=
+github.com/theopenlane/core v0.6.20 h1:IltUA1ObLu3I0xcDuxmvEsLM78Kgou5C2w83xvds1mM=
+github.com/theopenlane/core v0.6.20/go.mod h1:NWogqQ4pq2KWC0VKEmDyRdaP4Yq8MoY7ITzirF3f63c=
 github.com/theopenlane/echox v0.2.0 h1:s9DJJrsLOSPsXVfgmQxgXmSVtxzztBnSmcVX4ax7tIM=
 github.com/theopenlane/echox v0.2.0/go.mod h1:nfxwQpwvqYYI/pFHJKDs3/HLvjYKEGCih4XDgLSma64=
 github.com/theopenlane/echox v0.2.1 h1:ZhVkimmWxpKITf67oM57SrLWeIdnV8+dNXlC+VzlRaQ=
