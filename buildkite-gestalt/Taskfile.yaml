@@ -3,10 +3,6 @@ version: '3'
 dotenv: ['.env', '{{.ENV}}/.env']
 
 tasks:
-  install:age:
-    desc: install age, an encryption / decryption tool
-    cmds:
-      - apt install age
   install:jq:
     aliases: [jqinstall]
     desc: install jq
@@ -59,13 +55,10 @@ tasks:
     desc: installs buildkite environment and pre-checkout scripts
     cmds:
       - chmod +x pre-checkout
-      - cp environment /etc/buildkite-agent/hooks/
       - cp pre-checkout /etc/buildkite-agent/hooks/
-      - sudo sed -i "s/xxx/{{.BUILDKITE_AGENT_TOKEN}}/g" /etc/buildkite-agent/buildkite-agent.cfg
       - echo "spawn=2" | sudo tee -a /etc/buildkite-agent/buildkite-agent.cfg
       - echo "queue=self-hosted-garage-vms" | sudo tee -a /etc/buildkite-agent/buildkite-agent.cfg
       - sudo systemctl start buildkite-agent
-
   fullinstall:
     desc: runs through all of the respective installation tasks
     cmds:
