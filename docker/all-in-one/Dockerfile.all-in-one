@@ -18,7 +18,7 @@ COPY --from=builder /go/bin/openlane /bin/openlane
 COPY --from=ghcr.io/theopenlane/dbx:620-516e3250  /bin/dbx /bin/dbx
 
 # Copy redis binary
-COPY --from=redis:7.4.4 /usr/local/bin/redis-server /bin/redis-server
+COPY --from=redis:7.4.5 /usr/local/bin/redis-server /bin/redis-server
 
 # Copy FGA binary
 COPY --from=openfga/openfga:v1.8.16 /openfga /bin/openfga
