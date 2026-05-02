@@ -6,7 +6,7 @@ require github.com/theopenlane/beacon v0.2.0
 
 require (
 	github.com/bahlo/generic-list-go v0.2.0 // indirect
-	github.com/buger/jsonparser v1.1.1 // indirect
+	github.com/buger/jsonparser v1.1.2 // indirect
 	github.com/cenkalti/backoff/v5 v5.0.2 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/fsnotify/fsnotify v1.9.0 // indirect
@@ -15,11 +15,13 @@ require (
 	github.com/mailru/easyjson v0.9.0 // indirect
 	github.com/mitchellh/copystructure v1.2.0 // indirect
 	github.com/mitchellh/reflectwalk v1.0.2 // indirect
+	github.com/pb33f/ordered-map/v2 v2.3.1 // indirect
 	github.com/theopenlane/echox v0.2.3 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v1.2.2 // indirect
 	github.com/wk8/go-ordered-map/v2 v2.1.8 // indirect
 	go.opentelemetry.io/auto/sdk v1.2.1 // indirect
+	go.yaml.in/yaml/v4 v4.0.0-rc.2 // indirect
 	golang.org/x/time v0.11.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
@@ -29,7 +31,7 @@ require (
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.27.1 // indirect
-	github.com/invopop/jsonschema v0.13.0
+	github.com/invopop/jsonschema v0.14.0
 	github.com/invopop/yaml v0.3.1
 	github.com/knadh/koanf/parsers/yaml v1.0.0
 	github.com/knadh/koanf/providers/env v1.1.0
