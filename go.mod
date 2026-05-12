@@ -2,7 +2,10 @@ module github.com/theopenlane/accoutrements
 
 go 1.24.1
 
-require github.com/theopenlane/beacon v0.2.0
+require (
+	github.com/knadh/koanf/providers/env v1.0.0
+	github.com/theopenlane/beacon v0.2.0
+)
 
 require (
 	github.com/bahlo/generic-list-go v0.2.0 // indirect
@@ -32,7 +35,7 @@ require (
 	github.com/invopop/jsonschema v0.13.0
 	github.com/invopop/yaml v0.3.1
 	github.com/knadh/koanf/parsers/yaml v1.0.0
-	github.com/knadh/koanf/providers/env v1.1.0
+	github.com/knadh/koanf/providers/env/v2 v2.0.0
 	github.com/knadh/koanf/providers/file v1.2.0
 	github.com/knadh/koanf/v2 v2.2.1
 	github.com/mcuadros/go-defaults v1.2.0
