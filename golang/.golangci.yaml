@@ -1,44 +1,41 @@
+version: "2"
 run:
-  timeout: 10m
-  allow-serial-runners: true
-  concurrency: 0
-linters-settings:
-  goimports:
-    local-prefixes: github.com/theopenlane/REPONAME
-  gofumpt:
-    extra-rules: true
-  gosec:
-    exclude-generated: true
-  revive:
-    ignore-generated-header: true
+  modules-download-mode: readonly
+  tests: false
+  allow-parallel-runners: true
 linters:
   enable:
     - bodyclose
-    - errcheck
-    - gocritic
-    - gocyclo
     - err113
-    - gofmt
-    - goimports
-    - mnd
-    - gosimple
-    - govet
+    - gocritic
     - gosec
-    - ineffassign
     - misspell
+    - mnd
     - noctx
     - revive
-    - staticcheck
-    - stylecheck
-    - typecheck
-    - unused
-    - whitespace
-    - wsl
-issues:
-  fix: true
-  exclude-use-default: true
-  exclude-dirs:
-    - .buildkite/*
-    - .github/*
-    - docker/*
-  exclude-files: []
+  exclusions:
+    generated: lax
+    warn-unused: true
+    presets:
+      - comments # undisable this after fixing all comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    paths:
+      - internal/graphapi/testclient
+formatters:
+  enable:
+    - gofmt
+  exclusions:
+    generated: lax
+    paths:
+      - internal/graphapi/generated/gen_models.go
+      - internal/graphapi/historygenerated/gen_models.go
+      - internal/testutils/*
+      - pkg/entitlements/test/*
+      - cli/cmd/*
+      - internal/ent/hush/examples/*
+      - internal/workflows/examples/*
+      - internal/ent/csvgenerated/*
+      - internal/ent/workflowgenerated/*
+      - internal/httpserve/specs/*

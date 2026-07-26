@@ -1,7 +1,6 @@
 services:
   prometheus:
     image: prom/prometheus:latest
-    container_name: prometheus
     ports:
       - "9090:9090"
     command:
@@ -16,16 +15,8 @@ services:
       - ./configs/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     restart: unless-stopped
 
-  alertmanager:
-    image: prom/alertmanager:latest
-    volumes:
-      - ./configs/alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml
-    ports:
-      - "9093:9093"
-
   grafana:
     image: grafana/grafana:latest
-    container_name: grafana
     restart: unless-stopped
     environment:
       - GF_AUTH_ANONYMOUS_ENABLED=true
@@ -37,10 +28,10 @@ services:
     volumes:
       - ./configs/grafana/provisioning/dashboards.yml:/etc/grafana/provisioning/dashboards/provisioning-dashboards.yaml:ro
       - ./configs/grafana/provisioning/datasources.yml:/etc/grafana/provisioning/datasources/provisioning-datasources.yaml:ro
-      - ./configs/grafana/dashboards/kafka-metrics.json:/var/lib/grafana/dashboards/kafka-metrics.json:ro
       - ./configs/grafana/dashboards/echo.json:/var/lib/grafana/dashboards/echo.json:ro
       - ./configs/grafana/dashboards/postgres.json:/var/lib/grafana/dashboards/postgres.json:ro
       - ./configs/grafana/dashboards/openfga.json:/var/lib/grafana/dashboards/openfga.json:ro
+      - ./configs/grafana/dashboards/stripe.json:/var/lib/grafana/dashboards/stripe.json:ro
     depends_on:
       - prometheus
     ports:

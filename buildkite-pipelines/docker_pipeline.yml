@@ -22,12 +22,12 @@ steps:
               username: openlane-bender
               password-env: SECRET_GHCR_PUBLISH_TOKEN
               server: ghcr.io
-          - theopenlane/docker-metadata#v1.0.0:
+          - theopenlane/docker-metadata#v1.0.1:
               images:
                 - "${IMAGE_REPO}"
               extra_tags:
                 - "${IMAGE_TAG}"
-          - theopenlane/container-build#v1.1.0:
+          - theopenlane/container-build#v1.1.1:
               dockerfile: docker/Dockerfile
               push: false
               build-args:
@@ -53,13 +53,13 @@ steps:
               username: theopenlane-bender
               password-env: SECRET_GHCR_PUBLISH_TOKEN
               server: ghcr.io
-          - theopenlane/docker-metadata#v1.0.0:
+          - theopenlane/docker-metadata#v1.0.1:
               images:
                 - "${IMAGE_REPO}"
               extra_tags:
                 - "${IMAGE_TAG}"
                 - "latest"
-          - theopenlane/container-build#v1.1.0:
+          - theopenlane/container-build#v1.1.1:
               dockerfile: docker/Dockerfile
               push: true
               build-args:
@@ -84,12 +84,12 @@ steps:
               username: theopenlane-bender
               password-env: SECRET_GHCR_PUBLISH_TOKEN
               server: ghcr.io
-          - theopenlane/docker-metadata#v1.0.0:
+          - theopenlane/docker-metadata#v1.0.1:
               images:
                 - "${IMAGE_REPO}"
               extra_tags:
                 - "${BUILDKITE_TAG}"
-          - theopenlane/container-build#v1.1.0:
+          - theopenlane/container-build#v1.1.1:
               dockerfile: docker/Dockerfile
               push: true
               build-args:

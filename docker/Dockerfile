@@ -1,22 +1,14 @@
-FROM golang:1.26.2 AS builder
-
-WORKDIR /go/src/app
-COPY . .
-
-RUN go mod download
-RUN CGO_ENABLED=1 GOOS=linux go build -o /go/bin/openlane -a -ldflags '-linkmode external -extldflags "-static"' .
-
-FROM gcr.io/distroless/static:nonroot
+FROM cgr.dev/chainguard/bash:latest
 
 # `nonroot` coming from distroless
 USER 65532:65532
 
-# Copy the binary that goreleaser built
-COPY --from=builder /go/bin/openlane /bin/openlane
+# Copy the binary that was built
+COPY core /bin/core
 
 # Copy default model into image
-COPY fga/model/openlane.fga fga/model/openlane.fga
+COPY fga/model/ fga/model/
 
 # Run the web service on container startup.
-ENTRYPOINT [ "/bin/openlane" ]
+ENTRYPOINT [ "/bin/core" ]
 CMD ["serve"]

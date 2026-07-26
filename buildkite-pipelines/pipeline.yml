@@ -13,7 +13,7 @@ steps:
         key: "generate_config"
         cancel_on_build_failing: true
         plugins:
-          - docker#v5.12.0:
+          - docker#v5.14.0:
               image: "ghcr.io/theopenlane/build-image:latest"
               always-pull: true
               command: ["task", "config:ci"]
@@ -26,7 +26,7 @@ steps:
         key: "lint"
         cancel_on_build_failing: true
         plugins:
-          - docker#v5.12.0:
+          - docker#v5.14.0:
               image: "ghcr.io/theopenlane/build-image:latest"
               always-pull: true
               command: ["task", "go:lint"]
@@ -36,7 +36,7 @@ steps:
         key: "go_test"
         cancel_on_build_failing: true
         plugins:
-          - docker#v5.12.0:
+          - docker#v5.14.0:
               image: "ghcr.io/theopenlane/build-image:latest"
               always-pull: true
               command: ["task", "go:test:cover"]
@@ -54,7 +54,7 @@ steps:
           - artifacts#v1.9.4:
               download: "coverage.out"
               step: "go_test"
-          - docker#v5.12.0:
+          - docker#v5.14.0:
               image: "sonarsource/sonar-scanner-cli:5"
               environment:
                 - "SONAR_TOKEN"
@@ -71,7 +71,7 @@ steps:
           - artifacts#v1.9.4:
               download: coverage.out
               step: "go_test"
-          - docker#v5.12.0:
+          - docker#v5.14.0:
               image: "sonarsource/sonar-scanner-cli:5"
               environment:
                 - "SONAR_TOKEN"
@@ -84,7 +84,7 @@ steps:
         cancel_on_build_failing: true
         artifact_paths: "bin/${APP_NAME}"
         plugins:
-          - docker#v5.12.0:
+          - docker#v5.14.0:
               image: "ghcr.io/theopenlane/build-image:latest"
               always_pull: true
               environment:
@@ -98,7 +98,7 @@ steps:
         cancel_on_build_failing: true
         artifact_paths: "bin/openlane-cli"
         plugins:
-          - docker#v5.12.0:
+          - docker#v5.14.0:
               image: "ghcr.io/theopenlane/build-image:latest"
               always_pull: true
               environment:
@@ -124,12 +124,12 @@ steps:
               username: openlane-bender
               password-env: SECRET_GHCR_PUBLISH_TOKEN
               server: ghcr.io
-          - theopenlane/docker-metadata#v1.0.0:
+          - theopenlane/docker-metadata#v1.0.1:
               images:
                 - "${IMAGE_REPO}"
               extra_tags:
                 - "${IMAGE_TAG}"
-          - theopenlane/container-build#v1.1.0:
+          - theopenlane/container-build#v1.1.1:
               dockerfile: docker/Dockerfile
               push: false
               build-args:
@@ -155,12 +155,12 @@ steps:
               username: theopenlane-bender
               password-env: SECRET_GHCR_PUBLISH_TOKEN
               server: ghcr.io
-          - theopenlane/docker-metadata#v1.0.0:
+          - theopenlane/docker-metadata#v1.0.1:
               images:
                 - "${IMAGE_REPO}"
               extra_tags:
                 - "${IMAGE_TAG}"
-          - theopenlane/container-build#v1.1.0:
+          - theopenlane/container-build#v1.1.1:
               dockerfile: docker/Dockerfile
               push: true
               build-args:
@@ -185,12 +185,12 @@ steps:
               username: theopenlane-bender
               password-env: SECRET_GHCR_PUBLISH_TOKEN
               server: ghcr.io
-          - theopenlane/docker-metadata#v1.0.0:
+          - theopenlane/docker-metadata#v1.0.1:
               images:
                 - "${IMAGE_REPO}"
               extra_tags:
                 - "${BUILDKITE_TAG}"
-          - theopenlane/container-build#v1.1.0:
+          - theopenlane/container-build#v1.1.1:
               dockerfile: docker/Dockerfile
               push: true
               build-args:

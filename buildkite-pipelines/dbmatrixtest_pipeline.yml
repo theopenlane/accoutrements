@@ -17,7 +17,7 @@ steps:
             - 17-alpine
             - 16-alpine
       plugins:
-        - docker#v5.12.0:
+        - docker#v5.14.0:
             image: ghcr.io/theopenlane/build-image:latest
             always_pull: true
             command: ["task", "go:test:cover"]
@@ -31,6 +31,6 @@ steps:
       - label: ":auth0: fga model test"
         key: "fga_test"
         plugins:
-          - docker#v5.12.0:
+          - docker#v5.14.0:
               image: openfga/cli
               command: ["model", "test", "--tests", "fga/tests/tests.yaml"]
