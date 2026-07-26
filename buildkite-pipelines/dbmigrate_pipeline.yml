@@ -7,9 +7,10 @@ steps:
         agents:
           queue: "hosted-small"
         plugins:
-          - theopenlane/atlas#v1.1.0:
+          - theopenlane/atlas#v1.2.1:
               project: openlane
-              dev-url: "docker://postgres/16/dev?search_path=public"
+              atlas-env: dev
+              config: "file://db/atlas.hcl"
               dir: "file://db/migrations"
               step: lint
       - label: ":rocket: atlas push"
@@ -18,8 +19,9 @@ steps:
         agents:
           queue: "hosted-small"
         plugins:
-          - theopenlane/atlas#v1.1.0:
+          - theopenlane/atlas#v1.2.1:
               project: openlane
-              dev-url: "docker://postgres/16/dev?search_path=public"
               dir: "file://db/migrations"
               step: migrate
+              atlas-env: dev
+              config: "file://db/atlas.hcl"

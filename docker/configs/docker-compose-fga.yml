@@ -2,8 +2,7 @@ include:
   - docker-compose-pg.yml
 services:
   migrate:
-    image: openfga/openfga:v1.9.2
-    container_name: migrate
+    image: openfga/openfga:v1.18.1
     command: migrate
     depends_on:
       postgres:
@@ -17,22 +16,26 @@ services:
     depends_on:
       migrate:
         condition: service_completed_successfully
-    image: openfga/openfga:v1.9.2
-    container_name: openfga
+    image: openfga/openfga:v1.18.1
     environment:
       - OPENFGA_DATASTORE_ENGINE=postgres
       - OPENFGA_DATASTORE_URI=postgres://postgres:password@postgres:5432/openfga?sslmode=disable
       - OPENFGA_LOG_FORMAT=json
-      - OPENFGA_DATASTORE_MAX_OPEN_CONNS=100 #see postgres container
-      - OPENFGA_PLAYGROUND_ENABLED=true
-      - OPENFGA_LIST_USERS_MAX_RESULTS=10000
+      - OPENFGA_DATASTORE_MAX_OPEN_CONNS=40 #see postgres container
+      - OPENFGA_DATASTORE_MAX_IDLE_CONNS=40
+      - OPENFGA_LIST_USERS_MAX_RESULTS=1000
+      - OPENFGA_LIST_OBJECTS_MAX_RESULTS=1000
+      - OPENFGA_MAX_CHECKS_PER_BATCH_CHECK=500
+      - OPENFGA_LIST_OBJECTS_DEADLINE=5s
     command:
       - run
       - --check-query-cache-enabled
       - --metrics-enabled
       - --datastore-metrics-enabled
-      - --authn-method=preshared
-      - --authn-preshared-keys="QKwHEmWX99RnFh28eSRJ3GWlfb2FQkL7toh1GJpzch1mMkVeMg"
+      - --metrics-enable-rpc-histograms
+      - --authn-method=none
+      - --playground-enabled
+      - --playground-addr=0.0.0.0:3000
     healthcheck:
       test: ["CMD", "/usr/local/bin/grpc_health_probe", "-addr=openfga:8081"]
       interval: 5s

@@ -1,7 +1,6 @@
 services:
   postgres:
     image: postgres:17
-    container_name: postgres
     command: postgres -c 'max_connections=150'
     ports:
       - "5432:5432"
@@ -19,7 +18,7 @@ services:
       - default
 
   postgres-exporter:
-    image: wrouesnel/postgres_exporter:v0.8.0
+    image: quay.io/prometheuscommunity/postgres-exporter:latest
     restart: always
     environment:
       - DATA_SOURCE_URI=postgres:5432/openfga?sslmode=disable

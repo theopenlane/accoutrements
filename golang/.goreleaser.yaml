@@ -1,45 +1,171 @@
-project_name: openlane-cloud
+version: 2
+project_name: openlane
 builds:
-  - env:
-      - GO111MODULE=on
+  # ------------------------
+  # Linux amd64
+  # ------------------------
+  - id: linux-amd64
+    main: ./cli
+    binary: openlane
+    goos:
+      - linux
+    goarch:
+      - amd64
+    env:
       - CGO_ENABLED=0
     flags:
       - -trimpath
-      - -tags=netgo
+      - -tags=cli
+    ldflags:
+      - "-s -w"
+      - "-X main.Version={{ .Env.VERSION }}"
+      - "-X main.Commit={{ .Env.COMMIT }}"
+      - "-X main.CommitDate={{ .Env.COMMIT_DATE }}"
+      - "-X main.TreeState={{ .Env.TREE_STATE }}"
+      - "-X github.com/theopenlane/core/cli/constants.CLIVersion={{ .Env.VERSION }}"
+  # ------------------------
+  # Darwin amd64
+  # ------------------------
+  - id: darwin-amd64
+    main: ./cli
+    binary: openlane
+    goos:
+      - darwin
+    goarch:
+      - amd64
+    env:
+      - CGO_ENABLED=0
+    flags:
+      - -trimpath
+      - -tags=cli
     ldflags:
       - "-X main.Version={{ .Env.VERSION }}"
       - "-X main.Commit={{ .Env.COMMIT }}"
       - "-X main.CommitDate={{ .Env.COMMIT_DATE }}"
       - "-X main.TreeState={{ .Env.TREE_STATE }}"
-      - "-X github.com/theopenlane/accoutrements/internal/constants.CLIVersion={{ .Env.VERSION }}"
+      - "-X github.com/theopenlane/core/cli/constants.CLIVersion={{ .Env.VERSION }}"
+
+  # ------------------------
+  # Darwin arm64
+  # ------------------------
+  - id: darwin-arm64
+    main: ./cli
+    binary: openlane
+    goos:
+      - darwin
+    goarch:
+      - arm64
+    env:
+      - CGO_ENABLED=0
+    flags:
+      - -trimpath
+      - -tags=cli
+    ldflags:
+      - "-X main.Version={{ .Env.VERSION }}"
+      - "-X main.Commit={{ .Env.COMMIT }}"
+      - "-X main.CommitDate={{ .Env.COMMIT_DATE }}"
+      - "-X main.TreeState={{ .Env.TREE_STATE }}"
+      - "-X github.com/theopenlane/core/cli/constants.CLIVersion={{ .Env.VERSION }}"
+  # ------------------------
+  # Linux arm64
+  # ------------------------
+  - id: linux-arm64
+    main: ./cli
+    binary: openlane
     goos:
       - linux
-      - windows
+    goarch:
+      - arm64
+    env:
+      - CGO_ENABLED=0
+    flags:
+      - -trimpath
+      - -tags=netgo,cli
+    ldflags:
+      - "-s -w"
+      - "-X main.Version={{ .Env.VERSION }}"
+      - "-X main.Commit={{ .Env.COMMIT }}"
+      - "-X main.CommitDate={{ .Env.COMMIT_DATE }}"
+      - "-X main.TreeState={{ .Env.TREE_STATE }}"
+      - "-X github.com/theopenlane/core/cli/constants.CLIVersion={{ .Env.VERSION }}"
+  # ------------------------
+  # controlsync (openlane-sync)
+  # ------------------------
+  - id: controlsync-linux-amd64
+    main: ./controlsync
+    binary: openlane-sync
+    goos:
+      - linux
+    goarch:
+      - amd64
+    env:
+      - CGO_ENABLED=0
+    flags:
+      - -trimpath
+    ldflags:
+      - "-s -w"
+      - "-X github.com/theopenlane/core/controlsync/cmd.Version={{ .Env.VERSION }}"
+  - id: controlsync-linux-arm64
+    main: ./controlsync
+    binary: openlane-sync
+    goos:
+      - linux
+    goarch:
+      - arm64
+    env:
+      - CGO_ENABLED=0
+    flags:
+      - -trimpath
+      - -tags=netgo
+    ldflags:
+      - "-s -w"
+      - "-X github.com/theopenlane/core/controlsync/cmd.Version={{ .Env.VERSION }}"
+  - id: controlsync-darwin-amd64
+    main: ./controlsync
+    binary: openlane-sync
+    goos:
       - darwin
     goarch:
       - amd64
+    env:
+      - CGO_ENABLED=0
+    flags:
+      - -trimpath
+    ldflags:
+      - "-X github.com/theopenlane/core/controlsync/cmd.Version={{ .Env.VERSION }}"
+  - id: controlsync-darwin-arm64
+    main: ./controlsync
+    binary: openlane-sync
+    goos:
+      - darwin
+    goarch:
       - arm64
-    main: ./cmd/cli
+    env:
+      - CGO_ENABLED=0
+    flags:
+      - -trimpath
+    ldflags:
+      - "-X github.com/theopenlane/core/controlsync/cmd.Version={{ .Env.VERSION }}"
 archives:
-  - format: tar.gz # we can use binary, but it seems there's an issue where goreleaser skips the sboms
+  - id: openlane
+    formats: ['tar.gz'] # we can use binary, but it seems there's an issue where goreleaser skips the sboms
+    ids:
+      - linux-amd64
+      - darwin-amd64
+      - darwin-arm64
+      - linux-arm64
     name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
     format_overrides:
       - goos: windows
-        format: zip
-brews:
-  - homepage: 'https://github.com/theopenlane/accoutrements'
-    description: 'openlane-cloud is the client CLI for interacting with Openlane Cloud services'
-    directory: Formula
-    license: 'Apache-2.0'
-    commit_author:
-      name: openlane-bender
-      email: bender@theopenlane.io
-    repository:
-      owner: theopenlane
-      name: homebrew-tap
-      token: "{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}"
-    test: |
-      system "#{bin}/openlane-cloud --help"
+        formats: ['zip']
+  - id: controlsync
+    formats: ['tar.gz']
+    ids:
+      - controlsync-linux-amd64
+      - controlsync-linux-arm64
+      - controlsync-darwin-amd64
+      - controlsync-darwin-arm64
+    name_template: "openlane-sync_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
 source:
   enabled: true
 changelog:
@@ -48,19 +174,29 @@ changelog:
 sboms:
   - artifacts: archive
 release:
-  # If set to auto, will mark the release as not ready for production
-  # in case there is an indicator for this in the tag e.g. v1.0.0-rc1
   prerelease: auto
   github:
     owner: theopenlane
-    name: openlane-cloud
+    name: core
 # This section defines how and which artifacts we want to sign for the release.
 signs:
   - cmd: cosign
     args:
       - "sign-blob"
-      - "--output-signature=${signature}"
+      - "--bundle=${signature}"
       - "${artifact}"
-      - "--yes" # needed on cosign 2.0.0+
+      - "--yes" # needed on cosign >= 2.0.0
     artifacts: archive
     output: true
+    signature: "${artifact}.sigstore.json"
+homebrew_casks:
+  - homepage: 'https://github.com/theopenlane/core'
+    description: 'openlane is the client CLI for interacting with the openlane server'
+    license: 'Apache-2.0'
+    commit_author:
+      name: theopenlane-bender
+      email: bender@theopenlane.io
+    repository:
+      owner: theopenlane
+      name: homebrew-tap
+      token: "{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}"
