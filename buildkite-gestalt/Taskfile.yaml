@@ -15,7 +15,7 @@ tasks:
     cmds:
       - curl -fsSL https://get.docker.com -o install-docker.sh
       - sudo sh install-docker.sh
-      - systemctl enable docker
+      - sudo systemctl enable docker
 
   clean:docker:
     aliases: [dockerclean]
@@ -49,14 +49,6 @@ tasks:
       - sudo apt-get update && sudo apt-get install -y buildkite-agent
       - sudo systemctl enable buildkite-agent
 
-  install:gcloudcli:
-    aliases: [gcloud]
-    desc: sets up the gcloud registry keys and CLI
-    cmds:
-      - curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg
-      - echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
-      - sudo apt-get update && sudo apt-get install google-cloud-cli
-
   install:buildkitescripts:
     aliases: [scriptperms]
     desc: installs buildkite environment and pre-checkout scripts
@@ -64,7 +56,7 @@ tasks:
       - chmod +x pre-checkout
       - cp pre-checkout /etc/buildkite-agent/hooks/
       - echo "spawn=2" | sudo tee -a /etc/buildkite-agent/buildkite-agent.cfg
-      - echo "queue=self-hosted-garage-vms" | sudo tee -a /etc/buildkite-agent/buildkite-agent.cfg
+      - echo "queue=self-hosted-standard" | sudo tee -a /etc/buildkite-agent/buildkite-agent.cfg
       - sudo systemctl start buildkite-agent
 
   fullinstall:

@@ -4,8 +4,6 @@ steps:
     steps:
       - label: ":postgres: atlas lint"
         key: "atlas_lint"
-        agents:
-          queue: "hosted-small"
         plugins:
           - theopenlane/atlas#v1.2.1:
               project: openlane
@@ -16,8 +14,6 @@ steps:
       - label: ":rocket: atlas push"
         if: build.branch == "main"
         key: "atlas_migrate"
-        agents:
-          queue: "hosted-small"
         plugins:
           - theopenlane/atlas#v1.2.1:
               project: openlane

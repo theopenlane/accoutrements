@@ -62,7 +62,7 @@ func main() {
 }
 
 // generateSchema generates a JSON schema and a YAML schema based on the provided schemaConfig and structure
-func generateSchema(c schemaConfig, structure interface{}) error {
+func generateSchema(c schemaConfig, structure any) error {
 	// override the default name to using the prefixed pkg name
 	r := jsonschema.Reflector{Namer: namePkg}
 	r.ExpandedStruct = true
@@ -115,13 +115,13 @@ func generateSchema(c schemaConfig, structure interface{}) error {
 	}
 
 	// generate the environment variables from the config
-	envSchema := ""
+	var envSchema strings.Builder
 	configMapSchema := "\n"
 
 	for _, k := range out {
 		defaultVal := k.Tags.Get(defaultTag)
 
-		envSchema += fmt.Sprintf("%s=\"%s\"\n", k.Key, defaultVal)
+		envSchema.WriteString(fmt.Sprintf("%s=\"%s\"\n", k.Key, defaultVal))
 
 		// if the default value is empty, use the value from the values.yaml
 		if defaultVal == "" {
@@ -141,7 +141,7 @@ func generateSchema(c schemaConfig, structure interface{}) error {
 	}
 
 	// write the environment variables to a file
-	if err = os.WriteFile(c.envConfigPath, []byte(envSchema), ownerReadWrite); err != nil {
+	if err = os.WriteFile(c.envConfigPath, []byte(envSchema.String()), ownerReadWrite); err != nil {
 		panic(err.Error())
 	}
 

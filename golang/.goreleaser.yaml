@@ -88,84 +88,12 @@ builds:
       - "-X main.CommitDate={{ .Env.COMMIT_DATE }}"
       - "-X main.TreeState={{ .Env.TREE_STATE }}"
       - "-X github.com/theopenlane/core/cli/constants.CLIVersion={{ .Env.VERSION }}"
-  # ------------------------
-  # controlsync (openlane-sync)
-  # ------------------------
-  - id: controlsync-linux-amd64
-    main: ./controlsync
-    binary: openlane-sync
-    goos:
-      - linux
-    goarch:
-      - amd64
-    env:
-      - CGO_ENABLED=0
-    flags:
-      - -trimpath
-    ldflags:
-      - "-s -w"
-      - "-X github.com/theopenlane/core/controlsync/cmd.Version={{ .Env.VERSION }}"
-  - id: controlsync-linux-arm64
-    main: ./controlsync
-    binary: openlane-sync
-    goos:
-      - linux
-    goarch:
-      - arm64
-    env:
-      - CGO_ENABLED=0
-    flags:
-      - -trimpath
-      - -tags=netgo
-    ldflags:
-      - "-s -w"
-      - "-X github.com/theopenlane/core/controlsync/cmd.Version={{ .Env.VERSION }}"
-  - id: controlsync-darwin-amd64
-    main: ./controlsync
-    binary: openlane-sync
-    goos:
-      - darwin
-    goarch:
-      - amd64
-    env:
-      - CGO_ENABLED=0
-    flags:
-      - -trimpath
-    ldflags:
-      - "-X github.com/theopenlane/core/controlsync/cmd.Version={{ .Env.VERSION }}"
-  - id: controlsync-darwin-arm64
-    main: ./controlsync
-    binary: openlane-sync
-    goos:
-      - darwin
-    goarch:
-      - arm64
-    env:
-      - CGO_ENABLED=0
-    flags:
-      - -trimpath
-    ldflags:
-      - "-X github.com/theopenlane/core/controlsync/cmd.Version={{ .Env.VERSION }}"
 archives:
-  - id: openlane
-    formats: ['tar.gz'] # we can use binary, but it seems there's an issue where goreleaser skips the sboms
-    ids:
-      - linux-amd64
-      - darwin-amd64
-      - darwin-arm64
-      - linux-arm64
+  - formats: ['tar.gz'] # we can use binary, but it seems there's an issue where goreleaser skips the sboms
     name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
     format_overrides:
       - goos: windows
         formats: ['zip']
-  - id: controlsync
-    formats: ['tar.gz']
-    ids:
-      - controlsync-linux-amd64
-      - controlsync-linux-arm64
-      - controlsync-darwin-amd64
-      - controlsync-darwin-arm64
-    name_template: "openlane-sync_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
 source:
   enabled: true
 changelog:

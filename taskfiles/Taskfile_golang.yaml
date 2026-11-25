@@ -21,15 +21,7 @@ tasks:
     desc: runs and outputs results of created go tests
     aliases: ['go:test:psql', 'test:psql']
     env:
-      TEST_DB_URL: "docker://postgres:16-alpine"
-    cmds:
-      - go test -v ./...
-
-  go:test:libsql:
-    desc: runs and outputs results of created go tests
-    aliases: ['test:libsql']
-    env:
-      TEST_DB_URL: "libsql://file::memory:?cache=shared"
+      TEST_DB_URL: "docker://postgres:18-alpine"
     cmds:
       - go test -v ./...
 
@@ -39,6 +31,11 @@ tasks:
     cmds:
       - go test -v ./... -coverprofile=coverage.out
       - go tool cover -html=coverage.out
+
+  go:fix:
+    desc: detect and fix code modernization
+    cmds:
+      - go fix ./...
 
   go:fmt:
     desc: format all go code
@@ -54,13 +51,7 @@ tasks:
   go:build:
     desc: Runs go build for the openlane server
     cmds:
-      - go build -mod=mod -o openlane
-
-  go:build-cli:
-    aliases: [buildcli]
-    desc: Runs go build for the openlane cli
-    cmds:
-      - go build -mod=mod -o openlane-cli ./cmd/cli
+      - go build -mod=readonly
 
   go:all:
     aliases: [go]
