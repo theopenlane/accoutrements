@@ -14,8 +14,8 @@ steps:
       matrix:
         setup:
           version:
-            - 17-alpine
-            - 16-alpine
+            - 19-alpine
+            - 18-alpine
       plugins:
         - docker#v5.14.0:
             image: ghcr.io/theopenlane/build-image:latest
@@ -28,9 +28,9 @@ steps:
             volumes:
               - "/var/run/docker.sock:/var/run/docker.sock"
       artifact_paths: ["coverage.out"]
-      - label: ":auth0: fga model test"
-        key: "fga_test"
-        plugins:
-          - docker#v5.14.0:
-              image: openfga/cli
-              command: ["model", "test", "--tests", "fga/tests/tests.yaml"]
+    - label: ":auth0: fga model test"
+      key: "fga_test"
+      plugins:
+        - docker#v5.14.0:
+            image: openfga/cli
+            command: ["model", "test", "--tests", "fga/tests/tests.yaml"]

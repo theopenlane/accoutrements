@@ -3,7 +3,11 @@
         "config:recommended"
     ],
     "postUpdateOptions": [
-        "gomodTidy"
+        "gomodTidy",
+        "gomodUpdateImportPaths"
+    ],
+    "gitIgnoredAuthors": [
+        "*bender*"
     ],
     "labels": [
         "dependencies"
@@ -19,6 +23,15 @@
             "matchUpdateTypes": [
                 "patch"
             ]
+        },
+        {
+            "description": "our own releases do not need to wait out the release age",
+            "matchPackageNames": [
+                "github.com/theopenlane/**",
+                "ghcr.io/theopenlane/**",
+                "theopenlane/**"
+            ],
+            "minimumReleaseAge": null
         }
     ]
 }

@@ -12,19 +12,6 @@ tasks:
     cmds:
       - "docker build -f docker/Dockerfile . -t openlane:dev"
 
-  build:aio:
-    dir: ..
-    desc: builds the openlane docker image all-in-one image
-    cmds:
-      - "docker build -f ./docker/all-in-one/Dockerfile.all-in-one -t openlane:dev-aio ."
-
-  openlane:
-    dir: ..
-    desc: brings up the compose environment for the openlane server
-    deps: [build]
-    cmds:
-      - "docker compose -f ./docker/docker-compose-redis.yml -f ./docker/docker-compose-fga.yml -f ./docker/docker-compose-kafka.yml -f ./docker/docker-compose.yml -p openlane up -d"
-
   openlane:down:
     dir: ..
     desc: brings the openlane compose environment down
@@ -33,10 +20,9 @@ tasks:
 
   all:up:
     dir: ..
-    desc: brings up the full docker compose development environment including openlane server, fga, and rover
+    desc: brings up the full docker compose development environment including openlane server, fga
     cmds:
       - task: openlane
-      - task: :rover
 
   all:down:
     dir: ..
@@ -93,15 +79,3 @@ tasks:
     cmds:
       - task: fga
       - task: fga:open
-
-  kafka:
-    dir: ..
-    desc: brings up the compose environment for kafka
-    cmds:
-      - "docker compose -f ./docker/docker-compose-kafka.yml -p kafka up --build -d"
-
-  kafka:down:
-    dir: ..
-    desc: brings the kafka compose environment down
-    cmds:
-      - docker compose -p kafka down

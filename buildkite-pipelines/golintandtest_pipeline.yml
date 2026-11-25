@@ -7,9 +7,9 @@ steps:
         cancel_on_build_failing: true
         plugins:
           - docker#v5.14.0:
-              image: "ghcr.io/theopenlane/build-image:latest"
+              image: "golangci/golangci-lint:v2.15.0-alpine"
               always-pull: true
-              command: ["task", "go:lint"]
+              command: ["go", "tool", "task", "go:lint"]
               environment:
                 - "GOTOOLCHAIN=auto"
       - label: ":golang: go test"
@@ -17,9 +17,8 @@ steps:
         cancel_on_build_failing: true
         plugins:
           - docker#v5.14.0:
-              image: "ghcr.io/theopenlane/build-image:latest"
+              image: "golang:1.27-alpine"
               always-pull: true
-              command: ["task", "go:test:cover"]
+              command: ["go", "tool", "task", "go:test"]
               environment:
                 - "GOTOOLCHAIN=auto"
-        artifact_paths: ["coverage.out"]
