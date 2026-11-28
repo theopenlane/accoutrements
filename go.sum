@@ -80,6 +80,7 @@ github.com/theopenlane/beacon v0.4.2 h1:Gd0vT+BWf1bqrp6y9Gm6uSUzFD4Vxrh1ks8CGONC
 github.com/theopenlane/beacon v0.4.2/go.mod h1:u1sHujlyoJGKGrdR2m9ewamteKKy5sYlrTz99ajlRPo=
 github.com/theopenlane/core v1.34.0 h1:2tJN64ppo3LQlky4q/5jy1JxCIbdWms23v6AGuoXMxk=
 github.com/theopenlane/core v1.34.0/go.mod h1:cSpWnPDweResm75+snMKsJRx7j1hDa1QLOWqbTQWzy8=
+github.com/theopenlane/core/v2 v2.17.9/go.mod h1:XNuyCRonALPo7PILO5vbSRkXAGYW5I49xGz8qef/1y8=
 github.com/theopenlane/echox v0.3.0 h1:uwOKEw+r1utGQoOR6dZQqAVuY5j8TcasqnTwO5+rMsA=
 github.com/theopenlane/echox v0.3.0/go.mod h1:yTrXnj7s3VNIg0FCvB7Dut2Elr+LqJKU/nruxx1E1cM=
 github.com/theopenlane/utils v0.7.4 h1:3R+Mg8rh6xwZ/2itWPOdEn0kW9ZyUygJ0pB1xWxffO0=
