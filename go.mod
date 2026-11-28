@@ -13,6 +13,7 @@ require (
 	github.com/stoewer/go-strcase v1.4.0
 	github.com/theopenlane/beacon v0.4.2
 	github.com/theopenlane/core v1.34.0
+	github.com/theopenlane/core/v2 v2.17.9
 )
 
 require (
